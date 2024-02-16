@@ -1,0 +1,76 @@
+server:
+  port: ${GATEWAY_PORT}
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${DEFAULT_ZONE_URL}
+
+spring:
+  application:
+    name: apigateway-service
+  cloud:
+    gateway:
+        routes:
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user-service/sign-up
+              - Method=POST
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user-service/sign-up/confirm-email
+              - Method=POST
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user-service/login
+              - Method=POST
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user-service/refresh-token
+              - Method=POST
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user-service/auth/logout
+              - Method=POST
+            filters:
+              - name: AuthorizationHeaderFilter
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user-service/modify-profile
+              - Method=PUT
+            filters:
+              - name: AuthorizationHeaderFilter
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user-service/modify-password
+              - Method=PUT
+            filters:
+              - name: AuthorizationHeaderFilter
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user-service/users
+              - Method=GET
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user-service/tokens/**
+              - Method=GET
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user-service/**
+              - Method=GET
+            filters:
+              - name: AuthorizationHeaderFilter
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
