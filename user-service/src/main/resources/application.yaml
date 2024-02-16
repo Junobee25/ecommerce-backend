@@ -1,0 +1,56 @@
+server:
+  port: 0
+
+debug: false
+management.endpoints.web.exposure.include: "*"
+
+logging:
+  level:
+    com.hanghae.userservice: debug
+    org.springframework.web.servlet: debug
+    org.springframework.transaction.interceptor: trace
+    org.hibernate.type.descriptor.sql: trace
+
+spring:
+  application:
+    name: user-service
+  mail:
+    host: ${EMAIL_HOST_SERVER}
+    port: ${EMAIL_TRANSPORT}
+    username: ${EMAIL_USER_ACCOUNT}
+    password: ${APP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+  jpa:
+    defer-datasource-initialization: true
+    hibernate.ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.default_batch_fetch_size: 100
+
+  h2.console.enabled: false
+  sql.init.mode: always
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  token.expired-time-ms: ${JWT_TOKEN_EXPIRED_MS}
+  refreshToken.expired-time-ms : ${JWT_REFRESH_TOKEN_EXPIRED_MS}
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${DEFAULT_ZONE_URL}
+
