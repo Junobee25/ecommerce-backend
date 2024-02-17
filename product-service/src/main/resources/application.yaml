@@ -1,0 +1,36 @@
+server:
+  port: 0
+
+debug: false
+management.endpoints.web.exposure.include: "*"
+
+logging:
+  level:
+    com.hanghae.productservice: debug
+    org.springframework.web.servlet: debug
+    org.springframework.transaction.interceptor: trace
+    org.hibernate.type.descriptor.sql: trace
+
+spring:
+  application:
+    name: product-service
+  jpa:
+    defer-datasource-initialization: true
+    hibernate.ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.default_batch_fetch_size: 100
+
+  h2.console.enabled: false
+  sql.init.mode: always
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${DEFAULT_ZONE_URL}
+
