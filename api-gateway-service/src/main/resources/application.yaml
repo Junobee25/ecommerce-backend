@@ -72,5 +72,10 @@ spring:
               - Method=GET
             filters:
               - name: AuthorizationHeaderFilter
+          - id: product-service
+            uri: lb://PRODUCT-SERVICE
+            predicates:
+              - Path=/product-service/**
+              - Method=GET,POST,PUT,DELETE
 jwt:
   secret-key: ${JWT_SECRET_KEY}
