@@ -1,6 +1,11 @@
 version: '3.8'
 
 services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
   mysql:
     image: mysql:latest
     restart: always
