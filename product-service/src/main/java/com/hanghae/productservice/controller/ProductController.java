@@ -29,7 +29,8 @@ public class ProductController {
                 request.name(),
                 request.price(),
                 request.description(),
-                request.productType());
+                request.productType(),
+                request.stock());
 
         return Response.success();
     }

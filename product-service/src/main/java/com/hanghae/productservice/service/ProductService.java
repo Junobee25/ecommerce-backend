@@ -5,8 +5,10 @@ import com.hanghae.productservice.controller.dto.ProductDto;
 import com.hanghae.productservice.domain.constant.ErrorCode;
 import com.hanghae.productservice.domain.constant.ProductType;
 import com.hanghae.productservice.domain.entity.Product;
+import com.hanghae.productservice.domain.entity.Stock;
 import com.hanghae.productservice.domain.repository.ProductRepository;
 import com.hanghae.productservice.exception.ProductServiceApplicationException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +44,14 @@ public class ProductService {
         return ProductDetailDto.from(product);
     }
 
-    public void enrollProduct(String name, Integer price, String description, ProductType productType) {
-        productRepository.save(Product.of(name, price, description, productType));
+    public void enrollProduct(String name, Integer price, String description, ProductType productType, Long remain) {
+        productRepository.save(Product.of(name, price, description, productType, Stock.of(remain)));
+    }
+
+    @Transactional
+    public void purchase(Long productId, Long quantity) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(IllegalArgumentException::new);
+        product.purchase(quantity);
     }
 }

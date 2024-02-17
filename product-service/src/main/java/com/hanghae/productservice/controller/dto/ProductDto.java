@@ -19,7 +19,7 @@ public record ProductDto(
 
     public static ProductDto from(Product entity) {
        return new ProductDto(
-               entity.getProductId(),
+               entity.getId(),
                entity.getName(),
                entity.getPrice(),
                entity.getDescription(),

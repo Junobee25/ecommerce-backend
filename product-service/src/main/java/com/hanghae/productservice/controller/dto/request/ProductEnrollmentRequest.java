@@ -10,7 +10,9 @@ public record ProductEnrollmentRequest(
 
     String description,
 
-    ProductType productType
+    ProductType productType,
+
+    Long stock
 
 ) {
 }
