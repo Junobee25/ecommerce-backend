@@ -13,6 +13,8 @@ public record OrdersDto(
 
     Integer quantity,
 
+    Integer totalPrice,
+
     String deliveryAddress,
 
     OrderStatus orderStatus
@@ -24,6 +26,7 @@ public record OrdersDto(
                 entity.getUserId(),
                 entity.getProductId(),
                 entity.getQuantity(),
+                entity.getTotalPrice(),
                 entity.getDeliveryAddress(),
                 entity.getOrderStatus()
         );

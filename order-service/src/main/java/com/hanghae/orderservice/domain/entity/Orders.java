@@ -23,6 +23,9 @@ public class Orders {
     @Column(nullable = false)
     private Integer quantity;
 
+    @Column(nullable = false)
+    private Integer totalPrice;
+
     @Column(nullable = false, length = 500)
     private String deliveryAddress;
 
@@ -33,15 +36,16 @@ public class Orders {
 
     }
 
-    private Orders(Long userId, Long productId, Integer quantity, String deliveryAddress, OrderStatus orderStatus) {
+    private Orders(Long userId, Long productId, Integer quantity, Integer totalPrice,  String deliveryAddress, OrderStatus orderStatus) {
         this.userId = userId;
         this.productId = productId;
+        this.totalPrice = totalPrice;
         this.quantity = quantity;
         this.deliveryAddress = deliveryAddress;
         this.orderStatus = orderStatus;
     }
 
-    public static Orders of(Long userId, Long productId, Integer quantity, String deliveryAddress, OrderStatus orderStatus) {
-        return new Orders(userId, productId, quantity, deliveryAddress, orderStatus);
+    public static Orders of(Long userId, Long productId, Integer quantity, Integer totalPrice, String deliveryAddress, OrderStatus orderStatus) {
+        return new Orders(userId, productId, quantity, totalPrice, deliveryAddress, orderStatus);
     }
 }

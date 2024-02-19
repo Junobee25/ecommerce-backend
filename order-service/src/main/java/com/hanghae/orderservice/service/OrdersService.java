@@ -7,7 +7,6 @@ import com.hanghae.orderservice.domain.constant.OrderStatus;
 import com.hanghae.orderservice.domain.entity.Orders;
 import com.hanghae.orderservice.domain.repository.OrdersRepository;
 import com.hanghae.orderservice.exception.OrdersServiceApplicationException;
-import com.hanghae.orderservice.external.client.ProductServiceClient;
 import com.hanghae.orderservice.external.client.UserServiceClient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +29,7 @@ public class OrdersService {
                 userServiceClient.getUserId(userServiceClient.getUserEmail(headers)),
                 request.productId(),
                 request.quantity(),
+                request.totalPrice(),
                 request.deliveryAddress(),
                 OrderStatus.COMPLETE)));
     }
