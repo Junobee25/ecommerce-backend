@@ -6,14 +6,18 @@ management.endpoints.web.exposure.include: "*"
 
 logging:
   level:
-    com.hanghae.paymentservice: debug
+    com.hanghae.stockhistoryservice: debug
     org.springframework.web.servlet: debug
     org.springframework.transaction.interceptor: trace
     org.hibernate.type.descriptor.sql: trace
 
 spring:
   application:
-    name: payment-service
+    name: stock-history-service
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
 eureka:
   instance:
@@ -23,4 +27,3 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: ${DEFAULT_ZONE_URL}
-
