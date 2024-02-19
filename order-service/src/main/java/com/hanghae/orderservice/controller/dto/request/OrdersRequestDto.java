@@ -6,6 +6,8 @@ public record OrdersRequestDto(
 
         Integer quantity,
 
+        Integer totalPrice,
+
         String deliveryAddress
 ) {
 }
