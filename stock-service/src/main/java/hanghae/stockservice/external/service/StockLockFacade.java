@@ -1,4 +1,4 @@
-package com.hanghae.productservice.service;
+package hanghae.stockservice.external.service;
 
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RLock;
@@ -9,20 +9,20 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
-public class ProductLockFacade {
+public class StockLockFacade {
 
-    private final ProductService productService;
+    private final StockService stockService;
     private final RedissonClient redissonClient;
 
     public void purchase(Long productId, Long quantity) {
         RLock lock = redissonClient.getLock(String.format("purchase:product:%d", productId));
         try {
-            boolean available = lock.tryLock(10, 1, TimeUnit.SECONDS);
+            boolean available = lock.tryLock(40, 1, TimeUnit.SECONDS);
             if (!available) {
                 System.out.println("redisson getLock timeout");
                 throw new IllegalArgumentException();
             }
-            productService.purchase(productId, quantity);
+            stockService.purchase(productId, quantity);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
