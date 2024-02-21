@@ -8,6 +8,7 @@
     <file type="web" url="file://$PROJECT_DIR$/payment-service" />
     <file type="web" url="file://$PROJECT_DIR$/product-service" />
     <file type="web" url="file://$PROJECT_DIR$/stock-history-service" />
+    <file type="web" url="file://$PROJECT_DIR$/stock-service" />
     <file type="web" url="file://$PROJECT_DIR$/user-service" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="17" project-jdk-type="JavaSDK">

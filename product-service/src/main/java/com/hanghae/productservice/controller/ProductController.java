@@ -30,7 +30,7 @@ public class ProductController {
                 request.price(),
                 request.description(),
                 request.productType(),
-                request.stock());
+                request.quantity());
 
         return Response.success();
     }

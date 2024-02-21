@@ -1,6 +1,6 @@
 package com.hanghae.paymentservice.controller.dto;
 
-public record PaymentInfoDto(
+public record PaymentInfoWithStockHistoryDto(
 
         Long productId,
 

@@ -17,7 +17,11 @@ public class RedisStockHistoryRepository implements StockHistoryRepository {
 
     @Override
     public Mono<StockHistory> save(StockHistory stockHistory) {
-        return reactiveRedisComponent.set(STOCK_HISTORY_KEY, "USER" + String.valueOf(stockHistory.getUserId()), stockHistory).map(sh -> stockHistory);
+        return reactiveRedisComponent.set(STOCK_HISTORY_KEY,
+                "SHK:" +
+                        String.valueOf(stockHistory.getProductId()) + ":" +
+                        String.valueOf(stockHistory.getUserId()),
+                stockHistory).map(sh -> stockHistory);
     }
 
     @Override

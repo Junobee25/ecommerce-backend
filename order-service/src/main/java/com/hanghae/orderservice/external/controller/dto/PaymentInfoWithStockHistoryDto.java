@@ -1,6 +1,6 @@
 package com.hanghae.orderservice.external.controller.dto;
 
-public record PaymentInfoDto(
+public record PaymentInfoWithStockHistoryDto(
 
     Long productId,
 

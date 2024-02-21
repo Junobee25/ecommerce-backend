@@ -10,14 +10,6 @@
 ### MySQL Volumne
 mysql/
 
-### IntelliJ IDEA ###
-.idea/misc.xml
-.idea/modules.xml
-.idea
-*.iws
-*.iml
-*.ipr
-
 ### Querydsl
 /src/main/generated
 
@@ -46,6 +38,7 @@ mysql/
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries

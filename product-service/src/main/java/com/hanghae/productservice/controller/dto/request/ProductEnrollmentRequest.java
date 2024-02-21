@@ -4,15 +4,15 @@ import com.hanghae.productservice.domain.constant.ProductType;
 
 public record ProductEnrollmentRequest(
 
-    String name,
+        String name,
 
-    Integer price,
+        Integer price,
 
-    String description,
+        String description,
 
-    ProductType productType,
+        ProductType productType,
 
-    Long stock
+        Long quantity
 
 ) {
 }

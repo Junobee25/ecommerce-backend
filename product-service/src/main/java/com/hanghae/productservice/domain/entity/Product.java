@@ -28,24 +28,15 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductType productType;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "stock_id", nullable = false)
-    private Stock stock;
-
-    private Product(String name, Integer price, String description, ProductType productType, Stock stock) {
+    private Product(String name, Integer price, String description, ProductType productType) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.productType = productType;
-        this.stock = stock;
     }
 
-    public static Product of(String name, Integer price, String description, ProductType productType, Stock stock) {
-        return new Product(name, price, description, productType, stock);
-    }
-
-    public void purchase(final long quantity) {
-        stock.decrease(quantity);
+    public static Product of(String name, Integer price, String description, ProductType productType) {
+        return new Product(name, price, description, productType);
     }
 }
 
