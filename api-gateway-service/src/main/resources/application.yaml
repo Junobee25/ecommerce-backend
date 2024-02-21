@@ -92,5 +92,10 @@ spring:
             predicates:
               - Path=/stock-history-service/**
               - Method=GET,POST,PUT,DELETE
+          - id: stock-service
+            uri: lb://STOCK-SERVICE
+            predicates:
+              - Path=/stock-service/**
+              - Method=GET,POST.PUT,DELETE
 jwt:
   secret-key: ${JWT_SECRET_KEY}
