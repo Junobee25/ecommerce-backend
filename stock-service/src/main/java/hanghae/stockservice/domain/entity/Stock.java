@@ -18,31 +18,31 @@ public class Stock {
     private Long productId;
 
     @Column(nullable = false)
-    private Long remain;
+    private Integer remain;
 
-    private Stock(Long productId, Long remain) {
+    private Stock(Long productId, Integer remain) {
         this.productId = productId;
         this.remain = remain;
     }
 
-    public static Stock of(Long productId, Long remain) {
+    public static Stock of(Long productId, Integer remain) {
         return new Stock(productId, remain);
     }
 
-    public void purchase(final Long quantity) {
+    public void purchase(final Integer quantity) {
         decrease(quantity);
     }
 
-    public void cancel(final Long quantity) {increase(quantity); }
+    public void cancel(final Integer quantity) {increase(quantity); }
 
-    public void decrease(final Long quantity) {
+    public void decrease(final Integer quantity) {
         if ((remain - quantity) < 0) {
             throw new IllegalArgumentException();
         }
         remain -= quantity;
     }
 
-    public void increase(final Long quantity) {
+    public void increase(final Integer quantity) {
         remain += quantity;
     }
 }

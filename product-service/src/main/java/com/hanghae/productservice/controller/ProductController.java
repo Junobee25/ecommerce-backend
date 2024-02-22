@@ -35,7 +35,7 @@ public class ProductController {
         return Response.success();
     }
 
-    @GetMapping("/products/{productType}")
+    @GetMapping("/products/productType/{productType}")
     public Response<List<ProductDto>> viewProductType(@PathVariable(value="productType") ProductType productType) {
         return Response.success(productService.viewProductType(productType));
     }

@@ -21,4 +21,10 @@ public class PaymentController {
         paymentService.entryPayment(headers);
         return Response.success();
     }
+
+    @PostMapping("/cancel")
+    public Response<Void> cancel(@RequestHeader HttpHeaders headers) {
+        paymentService.cancel(headers);
+        return Response.success();
+    }
 }

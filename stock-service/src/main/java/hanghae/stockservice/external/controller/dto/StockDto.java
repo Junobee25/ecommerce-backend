@@ -4,10 +4,10 @@ public record StockDto(
 
         Long productId,
 
-        Long quantity
+        Integer quantity
 ) {
 
-    public static StockDto of(Long productId, Long quantity) {
+    public static StockDto of(Long productId, Integer quantity) {
         return new StockDto(productId, quantity);
     }
 }
