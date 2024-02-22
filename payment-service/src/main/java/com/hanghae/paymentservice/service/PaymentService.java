@@ -1,10 +1,10 @@
 package com.hanghae.paymentservice.service;
 
 import com.hanghae.paymentservice.client.OrdersServiceClient;
-import com.hanghae.paymentservice.client.StockHistoryServiceClient;
+import com.hanghae.paymentservice.client.StockServiceClient;
 import com.hanghae.paymentservice.client.UserServiceClient;
-import com.hanghae.paymentservice.controller.dto.PaymentInfoWithStockHistoryDto;
-import com.hanghae.paymentservice.controller.dto.StockHistoryDto;
+import com.hanghae.paymentservice.client.dto.OrdersInfoDto;
+import com.hanghae.paymentservice.client.dto.StockHistoryDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -20,21 +20,33 @@ public class PaymentService {
 
     private final OrdersServiceClient ordersServiceClient;
     private final UserServiceClient userServiceClient;
-    private final StockHistoryServiceClient stockHistoryServiceClient;
+    private final StockServiceClient stockServiceClient;
 
     @Transactional
-    public void entryPayment(@RequestHeader HttpHeaders headers) {
-        List<PaymentInfoWithStockHistoryDto> paymentInfo = ordersServiceClient.getPaymentInfo(userServiceClient.getUserId(userServiceClient.getUserEmail(headers)));
-        List<StockHistoryDto> stockHistoryList = getStockHistory(paymentInfo);
+    public void entryPayment(HttpHeaders headers) {
+        //TODO: 주문 정보 입력 후 결제 시작 버튼 -> 재고 수량 감소
+        String userEmail = userServiceClient.getUserEmail(headers);
+        Long userId = userServiceClient.getUserId(userEmail);
 
-        // 재고 사용량 서비스와 통신 : 각 주문에 대해 재고 사용량 DB 업데이트
-        stockHistoryList.forEach(stockHistoryServiceClient::addStockHistory);
+        List<OrdersInfoDto> orders = ordersServiceClient.getOrdersInfo(userId);
+        List<StockHistoryDto> stockHistoryList = getStockHistory(orders);
+
+        stockHistoryList.forEach(stockServiceClient::decreaseStock);
+
     }
 
     @Transactional
-    public void cancel(@RequestHeader HttpHeaders headers) {
-        //TODO: 실시간 재고량 Redis DB에서 유저ID 값으로 조회하여 유저 주문 정보 삭제
+    public void cancel(HttpHeaders headers) {
+        //TODO: 결제 정보 입력(카드사, 계좌 번호, etc..)창 결제 취소 버튼 사용자 의도적 이탈 20%
+        if (calculateFailure()) {
+            String userEmail = userServiceClient.getUserEmail(headers);
+            Long userId = userServiceClient.getUserId(userEmail);
 
+            List<OrdersInfoDto> orders = ordersServiceClient.getOrdersInfo(userId);
+            List<StockHistoryDto> stockHistoryList = getStockHistory(orders);
+
+            stockHistoryList.forEach(stockServiceClient::increaseStock);
+        }
     }
 
     @Transactional
@@ -43,10 +55,14 @@ public class PaymentService {
 
     }
 
-
-    private List<StockHistoryDto> getStockHistory(List<PaymentInfoWithStockHistoryDto> paymentInfo) {
+    private List<StockHistoryDto> getStockHistory(List<OrdersInfoDto> paymentInfo) {
         return paymentInfo.stream()
-                .map(info -> StockHistoryDto.of(info.productId(), info.userId(), info.quantity()))
+                .map(info -> StockHistoryDto.of(info.productId(), info.quantity()))
                 .toList();
+    }
+
+    private Boolean calculateFailure() {
+        int randomValue = new Random().nextInt(100);
+        return randomValue < 20;
     }
 }

@@ -36,11 +36,11 @@ public class Orders {
 
     }
 
-    private Orders(Long userId, Long productId, Integer quantity, Integer totalPrice,  String deliveryAddress, OrderStatus orderStatus) {
+    private Orders(Long userId, Long productId, Integer quantity, Integer totalPrice, String deliveryAddress, OrderStatus orderStatus) {
         this.userId = userId;
         this.productId = productId;
-        this.totalPrice = totalPrice;
         this.quantity = quantity;
+        this.totalPrice = totalPrice;
         this.deliveryAddress = deliveryAddress;
         this.orderStatus = orderStatus;
     }

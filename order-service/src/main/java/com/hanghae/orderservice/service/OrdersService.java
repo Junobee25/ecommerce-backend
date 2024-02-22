@@ -1,13 +1,15 @@
 package com.hanghae.orderservice.service;
 
 import com.hanghae.orderservice.controller.dto.OrdersDto;
-import com.hanghae.orderservice.controller.dto.request.OrdersRequestDto;
 import com.hanghae.orderservice.domain.constant.ErrorCode;
 import com.hanghae.orderservice.domain.constant.OrderStatus;
 import com.hanghae.orderservice.domain.entity.Orders;
 import com.hanghae.orderservice.domain.repository.OrdersRepository;
 import com.hanghae.orderservice.exception.OrdersServiceApplicationException;
+import com.hanghae.orderservice.external.client.ProductServiceClient;
+import com.hanghae.orderservice.external.client.StockServiceClient;
 import com.hanghae.orderservice.external.client.UserServiceClient;
+import com.hanghae.orderservice.external.client.dto.request.QuantityCheckRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -21,16 +23,21 @@ public class OrdersService {
 
     private final OrdersRepository orderRepository;
     private final UserServiceClient userServiceClient;
+    private final StockServiceClient stockServiceClient;
+    private final ProductServiceClient productServiceClient;
 
     @Transactional
-    public OrdersDto order(OrdersRequestDto request, HttpHeaders headers) {
+    public OrdersDto order(Long productId, Integer quantity, String deliveryAddress, HttpHeaders headers) {
         //TODO : OrderStatus == COMPLETE => 결제 진행
+        Long userId = userServiceClient.getUserId(userServiceClient.getUserEmail(headers));
+        stockServiceClient.checkOrderQuantityAgainstProduct(QuantityCheckRequest.of(productId, quantity));
+        Integer totalPrice = quantity * productServiceClient.getProductPrice(productId);
         return OrdersDto.from(orderRepository.save(Orders.of(
-                userServiceClient.getUserId(userServiceClient.getUserEmail(headers)),
-                request.productId(),
-                request.quantity(),
-                request.totalPrice(),
-                request.deliveryAddress(),
+                userId,
+                productId,
+                quantity,
+                totalPrice,
+                deliveryAddress,
                 OrderStatus.COMPLETE)));
     }
 

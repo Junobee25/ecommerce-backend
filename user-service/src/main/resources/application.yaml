@@ -6,6 +6,8 @@ management.endpoints.web.exposure.include: "*"
 
 logging:
   level:
+    com.zaxxer.hikari.HikariConfig: debug
+    com.zaxxer.hikari: trace
     com.hanghae.userservice: debug
     org.springframework.web.servlet: debug
     org.springframework.transaction.interceptor: trace
@@ -29,6 +31,9 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
+  datasource:
+    hikari:
+      maximum-pool-size: 30
   jpa:
     defer-datasource-initialization: true
     hibernate.ddl-auto: update
