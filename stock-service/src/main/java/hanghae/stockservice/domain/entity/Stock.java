@@ -2,8 +2,10 @@ package hanghae.stockservice.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Stock {
@@ -31,10 +33,16 @@ public class Stock {
         decrease(quantity);
     }
 
+    public void cancel(final Long quantity) {increase(quantity); }
+
     public void decrease(final Long quantity) {
         if ((remain - quantity) < 0) {
             throw new IllegalArgumentException();
         }
         remain -= quantity;
+    }
+
+    public void increase(final Long quantity) {
+        remain += quantity;
     }
 }

@@ -29,4 +29,20 @@ public class StockLockFacade {
             lock.unlock();
         }
     }
+
+    public void cancel(Long productId, Long quantity) {
+        RLock lock = redissonClient.getLock(String.format("cancel:product:%d", productId));
+        try {
+            boolean available = lock.tryLock(40, 1, TimeUnit.SECONDS);
+            if (!available) {
+                System.out.println("redisson getLock timeout");
+                throw new IllegalArgumentException();
+            }
+            stockService.purchase(productId, quantity);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            lock.unlock();
+        }
+    }
 }

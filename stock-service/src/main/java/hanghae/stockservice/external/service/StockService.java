@@ -14,6 +14,16 @@ public class StockService {
     private final StockRepository stockRepository;
 
     @Transactional
+    public void checkOrderQuantityAgainstProduct(Long productId, Long orderQuantity) {
+        Stock stock = stockRepository.findByProductId(productId)
+                .orElseThrow(IllegalArgumentException::new);
+
+        if (stock.getRemain() <= orderQuantity) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Transactional
     public void enrollStock(StockDto stockDto) {
         stockRepository.save(Stock.of(stockDto.productId(), stockDto.quantity()));
     }
@@ -23,5 +33,12 @@ public class StockService {
         Stock stock = stockRepository.findByProductId(productId)
                 .orElseThrow(IllegalArgumentException::new);
         stock.purchase(quantity);
+    }
+
+    @Transactional
+    public void cancel(Long productId, Long quantity) {
+        Stock stock = stockRepository.findByProductId(productId)
+                .orElseThrow(IllegalArgumentException::new);
+        stock.cancel(quantity);
     }
 }
