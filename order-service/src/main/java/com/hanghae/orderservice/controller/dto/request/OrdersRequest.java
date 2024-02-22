@@ -1,12 +1,10 @@
 package com.hanghae.orderservice.controller.dto.request;
 
-public record OrdersRequestDto(
+public record OrdersRequest(
 
         Long productId,
 
         Integer quantity,
-
-        Integer totalPrice,
 
         String deliveryAddress
 ) {
