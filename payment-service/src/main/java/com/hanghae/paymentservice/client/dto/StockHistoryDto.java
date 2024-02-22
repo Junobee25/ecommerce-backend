@@ -1,4 +1,4 @@
-package com.hanghae.paymentservice.controller.dto;
+package com.hanghae.paymentservice.client.dto;
 
 public record StockHistoryDto(
 

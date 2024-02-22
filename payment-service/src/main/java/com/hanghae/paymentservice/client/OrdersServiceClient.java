@@ -1,6 +1,6 @@
 package com.hanghae.paymentservice.client;
 
-import com.hanghae.paymentservice.controller.dto.OrdersInfoDto;
+import com.hanghae.paymentservice.client.dto.OrdersInfoDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

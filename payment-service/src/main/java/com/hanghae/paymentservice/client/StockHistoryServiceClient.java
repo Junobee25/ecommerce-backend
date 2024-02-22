@@ -1,6 +1,6 @@
 package com.hanghae.paymentservice.client;
 
-import com.hanghae.paymentservice.controller.dto.StockHistoryDto;
+import com.hanghae.paymentservice.client.dto.StockHistoryDto;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
