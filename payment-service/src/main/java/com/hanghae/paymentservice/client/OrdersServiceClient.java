@@ -1,6 +1,6 @@
 package com.hanghae.paymentservice.client;
 
-import com.hanghae.paymentservice.controller.dto.PaymentInfoWithStockHistoryDto;
+import com.hanghae.paymentservice.controller.dto.OrdersInfoDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +11,6 @@ import java.util.List;
 public interface OrdersServiceClient {
 
     @GetMapping("/order-service/orders")
-    List<PaymentInfoWithStockHistoryDto> getPaymentInfo(@RequestParam(value = "userId") Long userId);
+    List<OrdersInfoDto> getOrdersInfo(@RequestParam(value = "userId") Long userId);
 
 }

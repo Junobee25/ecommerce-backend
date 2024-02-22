@@ -1,5 +1,6 @@
 package hanghae.stockservice.external.controller;
 
+import hanghae.stockservice.external.controller.dto.StockDto;
 import hanghae.stockservice.external.controller.dto.request.PurchaseRequest;
 import hanghae.stockservice.external.controller.dto.response.Response;
 import hanghae.stockservice.external.service.StockLockFacade;
@@ -19,8 +20,8 @@ public class StockController {
     private final StockLockFacade stockLockFacade;
 
     @PostMapping("/stock/enroll-stock")
-    public Response<Void> enrollStock(@RequestBody Long productId, Long quantity) {
-        stockService.enrollStock(productId, quantity);
+    public Response<Void> enrollStock(@RequestBody StockDto stockDto) {
+        stockService.enrollStock(stockDto);
         return Response.success();
     }
 

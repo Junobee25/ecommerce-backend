@@ -4,11 +4,9 @@ public record StockHistoryDto(
 
         Long productId,
 
-        Long userId,
-
         Integer quantity
 ) {
-    public static StockHistoryDto of(Long productId, Long userId, Integer quantity) {
-        return new StockHistoryDto(productId, userId, quantity);
+    public static StockHistoryDto of(Long productId, Integer quantity) {
+        return new StockHistoryDto(productId, quantity);
     }
 }
