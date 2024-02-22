@@ -14,7 +14,7 @@ public class StockService {
     private final StockRepository stockRepository;
 
     @Transactional
-    public void checkOrderQuantityAgainstProduct(Long productId, Long orderQuantity) {
+    public void checkOrderQuantityAgainstProduct(Long productId, Integer orderQuantity) {
         Stock stock = stockRepository.findByProductId(productId)
                 .orElseThrow(IllegalArgumentException::new);
 
@@ -29,14 +29,14 @@ public class StockService {
     }
 
     @Transactional
-    public void purchase(Long productId, Long quantity) {
+    public void purchase(Long productId, Integer quantity) {
         Stock stock = stockRepository.findByProductId(productId)
                 .orElseThrow(IllegalArgumentException::new);
         stock.purchase(quantity);
     }
 
     @Transactional
-    public void cancel(Long productId, Long quantity) {
+    public void cancel(Long productId, Integer quantity) {
         Stock stock = stockRepository.findByProductId(productId)
                 .orElseThrow(IllegalArgumentException::new);
         stock.cancel(quantity);

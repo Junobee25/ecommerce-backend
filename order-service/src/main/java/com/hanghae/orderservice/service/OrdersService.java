@@ -30,7 +30,7 @@ public class OrdersService {
     public OrdersDto order(Long productId, Integer quantity, String deliveryAddress, HttpHeaders headers) {
         //TODO : OrderStatus == COMPLETE => 결제 진행
         Long userId = userServiceClient.getUserId(userServiceClient.getUserEmail(headers));
-        stockServiceClient.checkOrderQuantityAgainstProduct(QuantityCheckRequest.of(productId, quantity));
+        stockServiceClient.checkOrderQuantityAgainstProduct(productId, quantity);
         Integer totalPrice = quantity * productServiceClient.getProductPrice(productId);
         return OrdersDto.from(orderRepository.save(Orders.of(
                 userId,

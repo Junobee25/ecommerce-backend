@@ -19,8 +19,8 @@ public class StockController {
     private final StockLockFacade stockLockFacade;
 
     @GetMapping("/stock")
-    public Response<Void> checkOrderQuantityAgainstProduct(@RequestBody QuantityCheckRequest request) {
-        stockService.checkOrderQuantityAgainstProduct(request.productId(), request.orderQuantity());
+    public Response<Void> checkOrderQuantityAgainstProduct(@RequestParam Long productId, @RequestParam Integer orderQuantity) {
+        stockService.checkOrderQuantityAgainstProduct(productId, orderQuantity);
         return Response.success();
     }
     @PostMapping("/stock/enroll-stock")

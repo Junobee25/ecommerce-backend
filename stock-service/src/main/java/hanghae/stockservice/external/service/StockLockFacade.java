@@ -14,7 +14,7 @@ public class StockLockFacade {
     private final StockService stockService;
     private final RedissonClient redissonClient;
 
-    public void purchase(Long productId, Long quantity) {
+    public void purchase(Long productId, Integer quantity) {
         RLock lock = redissonClient.getLock(String.format("purchase:product:%d", productId));
         try {
             boolean available = lock.tryLock(40, 1, TimeUnit.SECONDS);
@@ -30,7 +30,7 @@ public class StockLockFacade {
         }
     }
 
-    public void cancel(Long productId, Long quantity) {
+    public void cancel(Long productId, Integer quantity) {
         RLock lock = redissonClient.getLock(String.format("cancel:product:%d", productId));
         try {
             boolean available = lock.tryLock(40, 1, TimeUnit.SECONDS);
@@ -38,7 +38,7 @@ public class StockLockFacade {
                 System.out.println("redisson getLock timeout");
                 throw new IllegalArgumentException();
             }
-            stockService.purchase(productId, quantity);
+            stockService.cancel(productId, quantity);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
