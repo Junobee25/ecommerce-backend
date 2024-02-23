@@ -9,7 +9,6 @@ import com.hanghae.orderservice.exception.OrdersServiceApplicationException;
 import com.hanghae.orderservice.external.client.ProductServiceClient;
 import com.hanghae.orderservice.external.client.StockServiceClient;
 import com.hanghae.orderservice.external.client.UserServiceClient;
-import com.hanghae.orderservice.external.client.dto.request.QuantityCheckRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -32,13 +31,14 @@ public class OrdersService {
         Long userId = userServiceClient.getUserId(userServiceClient.getUserEmail(headers));
         stockServiceClient.checkOrderQuantityAgainstProduct(productId, quantity);
         Integer totalPrice = quantity * productServiceClient.getProductPrice(productId);
+
         return OrdersDto.from(orderRepository.save(Orders.of(
                 userId,
                 productId,
                 quantity,
                 totalPrice,
                 deliveryAddress,
-                OrderStatus.COMPLETE)));
+                OrderStatus.PROGRESS)));
     }
 
     @Transactional

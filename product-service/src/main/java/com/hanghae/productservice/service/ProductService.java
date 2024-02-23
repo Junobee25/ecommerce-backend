@@ -2,7 +2,7 @@ package com.hanghae.productservice.service;
 
 import com.hanghae.productservice.controller.dto.ProductDetailDto;
 import com.hanghae.productservice.controller.dto.ProductDto;
-import com.hanghae.productservice.controller.dto.StockDto;
+import com.hanghae.productservice.external.client.dto.StockWithProductAdapterDto;
 import com.hanghae.productservice.domain.constant.ErrorCode;
 import com.hanghae.productservice.domain.constant.ProductType;
 import com.hanghae.productservice.domain.entity.Product;
@@ -47,6 +47,6 @@ public class ProductService {
 
     public void enrollProduct(String name, Integer price, String description, ProductType productType, Long quantity) {
         Product product = productRepository.save(Product.of(name, price, description, productType));
-        stockServiceClient.enrollStock(StockDto.of(product.getId(), quantity));
+        stockServiceClient.enrollStock(StockWithProductAdapterDto.of(product.getId(), quantity));
     }
 }
