@@ -1,7 +1,7 @@
 package com.hanghae.orderservice.external.service;
 
 import com.hanghae.orderservice.domain.repository.OrdersRepository;
-import com.hanghae.orderservice.external.controller.dto.PaymentInfoWithStockHistoryDto;
+import com.hanghae.orderservice.external.controller.dto.OrdersWithPaymentAdapterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +14,9 @@ public class ExternalService {
 
     private final OrdersRepository ordersRepository;
 
-    public List<PaymentInfoWithStockHistoryDto> getPaymentInfos(Long userId) {
+    public List<OrdersWithPaymentAdapterDto> getPaymentInfos(Long userId) {
         return ordersRepository.findByUserId(userId).stream()
-                .map(order -> new PaymentInfoWithStockHistoryDto(
+                .map(order -> new OrdersWithPaymentAdapterDto(
                         order.getProductId(),
                         order.getUserId(),
                         order.getQuantity(),

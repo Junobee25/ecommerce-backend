@@ -1,6 +1,6 @@
 package com.hanghae.paymentservice.client.dto;
 
-public record OrdersInfoDto(
+public record OrdersWithPaymentAdapterDto(
 
         Long productId,
 
