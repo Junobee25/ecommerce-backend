@@ -20,6 +20,7 @@ public record OrdersDto(
     OrderStatus orderStatus
 
 ) {
+
     public static OrdersDto from(Orders entity) {
         return new OrdersDto(
                 entity.getId(),
