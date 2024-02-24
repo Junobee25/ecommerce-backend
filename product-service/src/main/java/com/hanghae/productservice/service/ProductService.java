@@ -39,6 +39,7 @@ public class ProductService {
     }
 
     public ProductDetailDto viewProductDetail(Long productId) {
+        //TODO : ProductDetailDto에 재고 수량 추가하기 -> 재고 서비스에서 가져와야 함
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductServiceApplicationException(ErrorCode.PRODUCT_NOT_FOUND));
 
