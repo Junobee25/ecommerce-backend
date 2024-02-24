@@ -23,37 +23,62 @@ public class PaymentService {
 
     @Transactional
     public void entryPayment(HttpHeaders headers) {
-        //TODO: 주문 정보 입력 후 결제 시작 버튼 -> 재고 수량 감소
-        processPayment(headers);
+        entryProcessPayment(headers);
     }
 
     @Transactional
     public void payment(HttpHeaders headers) {
-        //TODO: 20% 이탈 고려하여 Random으로 Redis DB 내 유저 주문결제 정보 삭제
-        cancel(headers);
+        completeProcessPayment(headers);
     }
 
     @Transactional
     public void cancel(HttpHeaders headers) {
-        //TODO: 결제 정보 입력(카드사, 계좌 번호, etc..)창 결제 취소 버튼 사용자 의도적 이탈 20%
         if (calculateFailure()) {
-            processPayment(headers);
+            cancelProcessPayment(headers);
         }
     }
 
-    private void processPayment(HttpHeaders headers) {
-        String userEmail = userServiceClient.getUserEmail(headers);
-        Long userId = userServiceClient.getUserId(userEmail);
+    private void entryProcessPayment(HttpHeaders headers) {
+        List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
+        List<StockWithPaymentAdapterDto> stockHistory = getStockHistory(orders);
 
-        List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(userId);
+        stockHistory.forEach(stockServiceClient::decreaseStock);
+    }
+
+    private void completeProcessPayment(HttpHeaders headers) {
+        if (calculateFailure()) {
+            cancelProcessPayment(headers);
+        } else {
+            List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
+            completeOrders(orders);
+        }
+    }
+
+    private void cancelProcessPayment(HttpHeaders headers) {
+        List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
+        cancelOrders(orders);
         List<StockWithPaymentAdapterDto> stockHistory = getStockHistory(orders);
 
         stockHistory.forEach(stockServiceClient::increaseStock);
     }
 
-    private Boolean calculateFailure() {
-        int randomValue = new Random().nextInt(100);
-        return randomValue < 20;
+    private void cancelOrders(List<OrdersWithPaymentAdapterDto> orders) {
+        orders.stream()
+                .map(OrdersWithPaymentAdapterDto::userId)
+                .toList()
+                .forEach(ordersServiceClient::cancelOrders);
+    }
+
+    private void completeOrders(List<OrdersWithPaymentAdapterDto> orders) {
+        orders.stream()
+                .map(OrdersWithPaymentAdapterDto::userId)
+                .toList()
+                .forEach(ordersServiceClient::completeOrders);
+    }
+
+    private Long getUserInfo(HttpHeaders headers) {
+        String userEmail = userServiceClient.getUserEmail(headers);
+        return userServiceClient.getUserId(userEmail);
     }
 
     private List<StockWithPaymentAdapterDto> getStockHistory(List<OrdersWithPaymentAdapterDto> orders) {
@@ -61,4 +86,10 @@ public class PaymentService {
                 .map(order -> StockWithPaymentAdapterDto.of(order.productId(), order.quantity()))
                 .toList();
     }
+
+    private Boolean calculateFailure() {
+        int randomValue = new Random().nextInt(100);
+        return randomValue < 20;
+    }
+
 }

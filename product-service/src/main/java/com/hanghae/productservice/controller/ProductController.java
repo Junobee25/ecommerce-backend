@@ -23,7 +23,7 @@ public class ProductController {
         return Response.success(productService.viewProductList());
     }
 
-    @PostMapping("/products")
+    @PostMapping("/products/enroll")
     public Response<Void> enrollProduct(@RequestBody ProductEnrollmentRequest request) {
         productService.enrollProduct(
                 request.name(),
