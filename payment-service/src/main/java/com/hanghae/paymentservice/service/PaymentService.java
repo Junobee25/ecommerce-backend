@@ -33,9 +33,7 @@ public class PaymentService {
 
     @Transactional
     public void cancel(HttpHeaders headers) {
-        if (calculateFailure()) {
-            cancelProcessPayment(headers);
-        }
+        cancelProcessPayment(headers);
     }
 
     private void entryProcessPayment(HttpHeaders headers) {
@@ -46,20 +44,24 @@ public class PaymentService {
     }
 
     private void completeProcessPayment(HttpHeaders headers) {
+        List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
+        List<StockWithPaymentAdapterDto> stockHistory = getStockHistory(orders);
         if (calculateFailure()) {
-            cancelProcessPayment(headers);
-        } else {
-            List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
-            completeOrders(orders);
+            cancelOrders(orders);
+            stockHistory.forEach(stockServiceClient::increaseStock);
+            return;
         }
+
+        completeOrders(orders);
     }
 
     private void cancelProcessPayment(HttpHeaders headers) {
         List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
-        cancelOrders(orders);
         List<StockWithPaymentAdapterDto> stockHistory = getStockHistory(orders);
-
-        stockHistory.forEach(stockServiceClient::increaseStock);
+        if (calculateFailure()) {
+            cancelOrders(orders);
+            stockHistory.forEach(stockServiceClient::increaseStock);
+        }
     }
 
     private void cancelOrders(List<OrdersWithPaymentAdapterDto> orders) {
