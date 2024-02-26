@@ -28,9 +28,9 @@ public class OrdersService {
     @Transactional
     public OrdersDto order(Long productId, Integer quantity, String deliveryAddress, HttpHeaders headers) {
         //TODO : OrderStatus == COMPLETE => 결제 진행
-        Long userId = userServiceClient.getUserId(userServiceClient.getUserEmail(headers));
+        Long userId = getUserInfo(headers);
         stockServiceClient.checkOrderQuantityAgainstProduct(productId, quantity);
-        Integer totalPrice = quantity * productServiceClient.getProductPrice(productId);
+        Integer totalPrice = calculateTotalPrice(productId, quantity);
 
         return OrdersDto.from(orderRepository.save(Orders.of(
                 userId,
@@ -44,7 +44,7 @@ public class OrdersService {
     @Transactional
     public void cancelOrder(Long orderId, HttpHeaders headers) {
         //TODO: 주문 취소 Flow (주문입력 페이지 -> 결제 하시겠습니까 페이지 => 결제 진행(결제 서비스 이동) or 주문 취소)
-        Long userId = userServiceClient.getUserId(userServiceClient.getUserEmail(headers));
+        Long userId = getUserInfo(headers);
         Orders orders = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrdersServiceApplicationException(ErrorCode.ORDER_NOT_FOUND));
 
@@ -53,5 +53,14 @@ public class OrdersService {
         }
 
         orderRepository.delete(orders);
+    }
+
+    private Long getUserInfo(HttpHeaders headers) {
+        String userEmail = userServiceClient.getUserEmail(headers);
+        return userServiceClient.getUserId(userEmail);
+    }
+
+    private Integer calculateTotalPrice(Long productId, Integer quantity) {
+        return quantity * productServiceClient.getProductPrice(productId);
     }
 }
