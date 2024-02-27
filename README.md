@@ -33,12 +33,12 @@
 **Example**
 ```
  PS C:\Users\ecommerce_project\ecommerce-backend> cd user-service
- PS C:\Users\ecommerce_project\ecommerce-backend\product-service> docker-compose up -d  
+ PS C:\Users\ecommerce_project\ecommerce-backend\user-service> docker-compose up -d  
  [+] Building 0.0s (0/0)                                                                                                                                              docker:default
  [+] Running 2/2
- ✔ Network product-service_default    Created                                                                                                                                  0.1s
- ✔ Container product-service-mysql-1  Started                                                                                                                                  0.1s
- PS C:\Users\ecommerce_project\ecommerce-backend\product-service> 
+ ✔ Network user-service_default    Created                                                                                                                                  0.1s
+ ✔ Container user-service-mysql-1  Started                                                                                                                                  0.1s
+ PS C:\Users\ecommerce_project\ecommerce-backend\user-service> 
 ```
 **Result Docker Desktop**
 ![image](https://github.com/Junobee25/pre-order-service/assets/109403631/8bd4d291-948c-4a4a-8915-ad571952c704)
