@@ -20,3 +20,6 @@
 
 ## 아키텍처
 ![image](https://github.com/Junobee25/ecommerce-backend/assets/109403631/89a25639-0b76-4123-a99d-7817a9022c1a)
+
+## 테스트 시나리오
+![image](https://github.com/Junobee25/pre-order-service/assets/109403631/121307da-ecfd-453c-8e3b-413cf236ac77)
