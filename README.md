@@ -23,3 +23,24 @@
 
 ## 테스트 시나리오
 ![image](https://github.com/Junobee25/ecommerce-backend/assets/109403631/74125b25-b3f5-4451-a7c2-da8b30c66987)
+
+## 도커 컴포즈를 통해 각 서비스의 DB 실행
+* `user-service`
+* `product-service`
+* `stock-service`
+* `order-service`
+
+**Example**
+```
+ PS C:\Users\ecommerce_project\ecommerce-backend> cd user-service
+ PS C:\Users\ecommerce_project\ecommerce-backend\product-service> docker-compose up -d  
+ [+] Building 0.0s (0/0)                                                                                                                                              docker:default
+ [+] Running 2/2
+ ✔ Network product-service_default    Created                                                                                                                                  0.1s
+ ✔ Container product-service-mysql-1  Started                                                                                                                                  0.1s
+ PS C:\Users\ecommerce_project\ecommerce-backend\product-service> 
+```
+**Result Docker Desktop**
+![image](https://github.com/Junobee25/pre-order-service/assets/109403631/8bd4d291-948c-4a4a-8915-ad571952c704)
+
+
