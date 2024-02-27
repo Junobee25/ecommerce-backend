@@ -27,7 +27,6 @@ public class OrdersService {
 
     @Transactional
     public OrdersDto order(Long productId, Integer quantity, String deliveryAddress, HttpHeaders headers) {
-        //TODO : OrderStatus == COMPLETE => 결제 진행
         Long userId = getUserInfo(headers);
         stockServiceClient.checkOrderQuantityAgainstProduct(productId, quantity);
         Integer totalPrice = calculateTotalPrice(productId, quantity);
