@@ -17,7 +17,7 @@ import java.util.Objects;
 @Getter
 @ToString(callSuper = true)
 @Table(indexes = {
-
+        @Index(name = "idx_email", columnList = "email")
 })
 @Entity
 public class UserAccount implements UserDetails {
