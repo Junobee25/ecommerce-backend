@@ -18,7 +18,7 @@ public class StockService {
         Stock stock = stockRepository.findByProductId(productId)
                 .orElseThrow(IllegalArgumentException::new);
 
-        if (stock.getRemain() <= orderQuantity) {
+        if (stock.getRemain() < orderQuantity) {
             throw new IllegalArgumentException();
         }
     }
