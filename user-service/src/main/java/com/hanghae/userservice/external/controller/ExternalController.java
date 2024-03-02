@@ -29,4 +29,8 @@ public class ExternalController {
         return Response.success(externalService.getUserId(email)).getResult();
     }
 
+    @GetMapping("/users/user-info")
+    public Long getUserInfo(Authentication authentication) {
+        return externalService.getUserInfo(authentication.getName());
+    }
 }

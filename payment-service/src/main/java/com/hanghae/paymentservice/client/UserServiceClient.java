@@ -14,4 +14,7 @@ public interface UserServiceClient {
 
     @GetMapping("/user-service/users/user-id")
     Long getUserId(@RequestParam("email") String email);
+
+    @GetMapping("/user-service/users/user-info")
+    Long getUserInfo(@RequestHeader HttpHeaders headers);
 }

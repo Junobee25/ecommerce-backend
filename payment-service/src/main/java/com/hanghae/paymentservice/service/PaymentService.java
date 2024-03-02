@@ -5,13 +5,15 @@ import com.hanghae.paymentservice.client.StockServiceClient;
 import com.hanghae.paymentservice.client.UserServiceClient;
 import com.hanghae.paymentservice.client.dto.OrdersWithPaymentAdapterDto;
 import com.hanghae.paymentservice.client.dto.StockWithPaymentAdapterDto;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -78,9 +80,9 @@ public class PaymentService {
                 .forEach(ordersServiceClient::completeOrders);
     }
 
+    // private -> public
     private Long getUserInfo(HttpHeaders headers) {
-        String userEmail = userServiceClient.getUserEmail(headers);
-        return userServiceClient.getUserId(userEmail);
+        return userServiceClient.getUserInfo(headers);
     }
 
     private List<StockWithPaymentAdapterDto> getStockHistory(List<OrdersWithPaymentAdapterDto> orders) {
