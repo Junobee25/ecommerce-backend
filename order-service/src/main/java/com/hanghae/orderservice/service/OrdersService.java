@@ -9,10 +9,10 @@ import com.hanghae.orderservice.exception.OrdersServiceApplicationException;
 import com.hanghae.orderservice.external.client.ProductServiceClient;
 import com.hanghae.orderservice.external.client.StockServiceClient;
 import com.hanghae.orderservice.external.client.UserServiceClient;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
