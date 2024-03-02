@@ -7,6 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Table(indexes = {
+        @Index(name = "idx_user_id", columnList = "userId"),
+        @Index(name = "idx_product_id", columnList = "productId")
+})
 @Entity
 public class Orders {
 

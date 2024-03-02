@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Table(indexes = {
+        @Index(name = "idx_product_id", columnList = "productId")
+})
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Stock {
