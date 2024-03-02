@@ -34,7 +34,7 @@ public class StockController {
 
     @PostMapping("/stock/cancel")
     public Response<Void> cancel(@RequestBody StockAdapterDto request) {
-        stockLockFacade.cancel(request.productId(), request.quantity());
+        stockService.cancel(request.productId(), request.quantity());
         return Response.success();
     }
 }

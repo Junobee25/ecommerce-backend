@@ -3,9 +3,9 @@ package hanghae.stockservice.external.service;
 import hanghae.stockservice.domain.entity.Stock;
 import hanghae.stockservice.domain.repository.StockRepository;
 import hanghae.stockservice.external.controller.dto.StockAdapterDto;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,7 +13,7 @@ public class StockService {
 
     private final StockRepository stockRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public void checkOrderQuantityAgainstProduct(Long productId, Integer orderQuantity) {
         Stock stock = stockRepository.findByProductId(productId)
                 .orElseThrow(IllegalArgumentException::new);
@@ -30,8 +30,7 @@ public class StockService {
 
     @Transactional
     public void purchase(Long productId, Integer quantity) {
-        Stock stock = stockRepository.findByProductId(productId)
-                .orElseThrow(IllegalArgumentException::new);
+        Stock stock = stockRepository.findByIdWithPessimisticLock(productId);
         stock.purchase(quantity);
     }
 
