@@ -11,7 +11,7 @@ logging:
     com.hanghae.userservice: debug
     org.springframework.web.servlet: debug
     org.springframework.transaction.interceptor: trace
-    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.type.descriptor.sql: debug
 
 spring:
   application:
@@ -33,7 +33,7 @@ spring:
           writetimeout: 5000
   datasource:
     hikari:
-      maximum-pool-size: 30
+      maximum-pool-size: 10
   jpa:
     defer-datasource-initialization: true
     hibernate.ddl-auto: update

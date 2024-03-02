@@ -14,6 +14,9 @@ logging:
 spring:
   application:
     name: stock-service
+  datasource:
+    hikari:
+      maximum-pool-size: 10
   jpa:
     defer-datasource-initialization: true
     hibernate.ddl-auto: update
@@ -21,6 +24,7 @@ spring:
     properties:
       hibernate.format_sql: true
       hibernate.default_batch_fetch_size: 100
+
 
   h2.console.enabled: false
   sql.init.mode: always
