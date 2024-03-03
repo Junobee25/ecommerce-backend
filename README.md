@@ -19,7 +19,7 @@
 * API 관리 : API GateWay
 
 ## 아키텍처
-![image](https://github.com/Junobee25/ecommerce-backend/assets/109403631/89a25639-0b76-4123-a99d-7817a9022c1a)
+![image](https://github.com/Junobee25/ecommerce-backend/assets/109403631/0f6b1768-e375-420e-95f2-bebf8bafbb5c)
 
 ## 테스트 시나리오
 ![image](https://github.com/Junobee25/ecommerce-backend/assets/109403631/74125b25-b3f5-4451-a7c2-da8b30c66987)
