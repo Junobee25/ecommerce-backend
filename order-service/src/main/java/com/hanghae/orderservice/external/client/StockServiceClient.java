@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name="stock-service")
 public interface StockServiceClient {
 
-    @GetMapping("/stock-service/stock")
+    @GetMapping("/stock-service/redis-stock")
     Response<Void> checkOrderQuantityAgainstProduct(@RequestParam Long productId, @RequestParam Integer orderQuantity);
 }
