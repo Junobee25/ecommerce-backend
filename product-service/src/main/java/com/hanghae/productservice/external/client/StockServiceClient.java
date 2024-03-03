@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface StockServiceClient {
 
     //TODO: MSA 간 트랜잭션 관리 필요,,!
-    @PostMapping("/stock-service/stock/enroll-stock")
+    @PostMapping("/stock-service/redis-stock/enroll-stock")
     void enrollStock(@RequestBody StockWithProductAdapterDto request);
 
 }
