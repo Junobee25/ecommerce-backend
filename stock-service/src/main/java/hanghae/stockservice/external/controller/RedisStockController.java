@@ -16,26 +16,32 @@ public class RedisStockController {
 
     private final RedisStockService redisStockService;
 
-    @PostMapping("/redis/enroll-stock")
+//    @GetMapping("/redis-stock")
+//    public Response<Void> checkOrderQuantityAgainstProduct(@RequestParam Long productId, @RequestParam Integer orderQuantity) {
+//        redisStockService.checkOrderQuantityAgainstProduct(productId, orderQuantity);
+//        return Response.success();
+//    }
+
+    @PostMapping("/redis-stock/enroll-stock")
     public Response<Void> enrollStock(@RequestBody StockAdapterDto request) {
         redisStockService.enrollStock(request);
         return Response.success();
     }
 
-    @PostMapping("/redis/purchase")
+    @PostMapping("/redis-stock/purchase")
     public Response<Void> purchase(@RequestBody StockAdapterDto request) {
         redisStockService.purchase(request);
         return Response.success();
     }
 
-    @PostMapping("/redis/cancel")
+    @PostMapping("/redis-stock/cancel")
     public Response<Void> cancel(@RequestBody StockAdapterDto request) {
         redisStockService.cancel(request);
         return Response.success();
     }
 
-    @GetMapping("/redis/stock")
-    public Response<Optional<RedisStock>> findProductStock(@RequestParam("productId") Long productId) {
+    @GetMapping("/redis-stock/stock")
+    public Response<Optional<Object>> findProductStock(@RequestParam("productId") Long productId) {
         return Response.success(redisStockService.findProductStock(productId));
     }
 }

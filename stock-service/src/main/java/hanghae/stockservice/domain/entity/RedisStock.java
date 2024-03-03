@@ -17,10 +17,21 @@ public class RedisStock implements Serializable {
     private Long productId;
     private Integer remain;
 
+    public Integer decrease(Integer quantity) {
+        if (remain != null) {
+            return remain - quantity;
+        }
+
+        return 0;
+    }
+
+    public Integer increase(Integer quantity) {
+        return remain + quantity;
+    }
+
     public void verifyRemainAvailability(final Integer quantity) {
         if ((remain - quantity) < 0) {
             throw new IllegalArgumentException();
         }
-        remain -= quantity;
     }
 }

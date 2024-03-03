@@ -15,22 +15,22 @@ public class RedisStockService {
 
     private final RedisStockRepository redisStockRepository;
 
-    @Transactional(readOnly = true)
-    public void checkOrderQuantityAgainstProduct(StockAdapterDto stockAdapterDto) {
-        RedisStock redisStock = redisStockRepository.findProductStock(stockAdapterDto.productId())
-                .orElseThrow(IllegalArgumentException::new);
-
-        if (redisStock.getRemain() < stockAdapterDto.quantity()) {
-            throw new IllegalArgumentException();
-        }
-    }
+//    @Transactional(readOnly = true)
+//    public void checkOrderQuantityAgainstProduct(Long productId, Integer quantity) {
+//        RedisStock redisStock = redisStockRepository.findProductStock(productId)
+//                .orElseThrow(IllegalArgumentException::new);
+//
+//        if (redisStock.getRemain() < quantity) {
+//            throw new IllegalArgumentException();
+//        }
+//    }
 
     @Transactional
     public void enrollStock(StockAdapterDto stockAdapterDto) {
         redisStockRepository.save(new RedisStock(stockAdapterDto.productId(), stockAdapterDto.quantity()));
     }
 
-    @Transactional
+
     public void purchase(StockAdapterDto stockAdapterDto) {
         redisStockRepository.decrementStock(stockAdapterDto.productId(), stockAdapterDto.quantity());
     }
@@ -41,7 +41,7 @@ public class RedisStockService {
     }
 
     @Transactional
-    public Optional<RedisStock> findProductStock(Long productId) {
+    public Optional<Object> findProductStock(Long productId) {
         return redisStockRepository.findProductStock(productId);
     }
 }
