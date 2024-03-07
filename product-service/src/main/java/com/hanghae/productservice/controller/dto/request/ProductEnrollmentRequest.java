@@ -12,7 +12,7 @@ public record ProductEnrollmentRequest(
 
         ProductType productType,
 
-        Long quantity
+        Integer quantity
 
 ) {
 }
