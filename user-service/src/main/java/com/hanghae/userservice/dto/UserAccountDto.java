@@ -11,9 +11,7 @@ public record UserAccountDto(
         String userPassword,
         Boolean emailVerified,
         String memo,
-        String profilePicture,
-        LocalDateTime createdAt,
-        LocalDateTime modifiedAt
+        String profilePicture
 ) {
     public static UserAccountDto from(UserAccount entity) {
         return new UserAccountDto(
@@ -23,9 +21,7 @@ public record UserAccountDto(
                 entity.getUserPassword(),
                 entity.getEmailVerified(),
                 entity.getMemo(),
-                entity.getProfilePicture(),
-                entity.getCreatedAt(),
-                entity.getModifiedAt()
+                entity.getProfilePicture()
         );
     }
 }
