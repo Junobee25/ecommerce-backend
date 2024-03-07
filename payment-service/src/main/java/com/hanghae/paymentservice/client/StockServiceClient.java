@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name="stock-service")
 public interface StockServiceClient {
 
-    @PostMapping("/stock-service/stock/purchase")
+    @PostMapping("/stock-service/redis-stock/purchase")
     void decreaseStock(@RequestBody StockWithPaymentAdapterDto request);
 
     @PostMapping("/stock-service/redis-stock/cancel")

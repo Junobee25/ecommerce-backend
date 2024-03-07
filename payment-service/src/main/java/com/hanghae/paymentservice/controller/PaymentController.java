@@ -14,7 +14,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/enroll-payment")
-    public Response<Void> entryPayment(@RequestHeader HttpHeaders headers) {
+    public Response<Void> entryRedisPayment(@RequestHeader HttpHeaders headers) {
         paymentService.entryPayment(headers);
         return Response.success();
     }
