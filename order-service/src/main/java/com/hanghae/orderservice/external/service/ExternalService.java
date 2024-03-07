@@ -2,8 +2,8 @@ package com.hanghae.orderservice.external.service;
 
 import com.hanghae.orderservice.domain.constant.OrderStatus;
 import com.hanghae.orderservice.domain.repository.OrdersRepository;
-import com.hanghae.orderservice.external.controller.dto.OrdersWithPaymentAdapterDto;
 import lombok.RequiredArgsConstructor;
+import org.common.dto.OrdersFeignResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +17,9 @@ public class ExternalService {
     private final OrdersRepository ordersRepository;
 
     @Transactional(readOnly = true)
-    public List<OrdersWithPaymentAdapterDto> getPaymentInfos(Long userId) {
+    public List<OrdersFeignResponse> getPaymentInfos(Long userId) {
         return ordersRepository.findByUserId(userId).stream()
-                .map(order -> new OrdersWithPaymentAdapterDto(
+                .map(order -> new OrdersFeignResponse(
                         order.getProductId(),
                         order.getUserId(),
                         order.getQuantity(),

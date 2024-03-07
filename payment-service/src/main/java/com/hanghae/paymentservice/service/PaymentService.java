@@ -3,9 +3,9 @@ package com.hanghae.paymentservice.service;
 import com.hanghae.paymentservice.client.OrdersServiceClient;
 import com.hanghae.paymentservice.client.StockServiceClient;
 import com.hanghae.paymentservice.client.UserServiceClient;
-import com.hanghae.paymentservice.client.dto.OrdersWithPaymentAdapterDto;
-import com.hanghae.paymentservice.client.dto.StockWithPaymentAdapterDto;
 import lombok.RequiredArgsConstructor;
+import org.common.dto.OrdersFeignResponse;
+import org.common.dto.StockFeignResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,15 +37,15 @@ public class PaymentService {
     }
 
     private void entryPaymentProcess(HttpHeaders headers) {
-        List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
-        List<StockWithPaymentAdapterDto> stockHistory = getStockHistory(orders);
+        List<OrdersFeignResponse> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
+        List<StockFeignResponse> stockHistory = getStockHistory(orders);
 
         stockHistory.forEach(stockServiceClient::decreaseStock);
     }
 
     private void completePaymentProcess(HttpHeaders headers) {
-        List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
-        List<StockWithPaymentAdapterDto> stockHistory = getStockHistory(orders);
+        List<OrdersFeignResponse> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
+        List<StockFeignResponse> stockHistory = getStockHistory(orders);
 
         if (calculateFailure()) {
             cancelOrders(orders);
@@ -57,8 +57,8 @@ public class PaymentService {
     }
 
     private void cancelProcessPayment(HttpHeaders headers) {
-        List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
-        List<StockWithPaymentAdapterDto> stockHistory = getStockHistory(orders);
+        List<OrdersFeignResponse> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
+        List<StockFeignResponse> stockHistory = getStockHistory(orders);
 
         if (calculateFailure()) {
             cancelOrders(orders);
@@ -66,16 +66,16 @@ public class PaymentService {
         }
     }
 
-    private void cancelOrders(List<OrdersWithPaymentAdapterDto> orders) {
+    private void cancelOrders(List<OrdersFeignResponse> orders) {
         orders.stream()
-                .map(OrdersWithPaymentAdapterDto::userId)
+                .map(OrdersFeignResponse::userId)
                 .toList()
                 .forEach(ordersServiceClient::cancelOrders);
     }
 
-    private void completeOrders(List<OrdersWithPaymentAdapterDto> orders) {
+    private void completeOrders(List<OrdersFeignResponse> orders) {
         orders.stream()
-                .map(OrdersWithPaymentAdapterDto::userId)
+                .map(OrdersFeignResponse::userId)
                 .toList()
                 .forEach(ordersServiceClient::completeOrders);
     }
@@ -84,9 +84,9 @@ public class PaymentService {
         return userServiceClient.getUserInfo(headers);
     }
 
-    private List<StockWithPaymentAdapterDto> getStockHistory(List<OrdersWithPaymentAdapterDto> orders) {
+    private List<StockFeignResponse> getStockHistory(List<OrdersFeignResponse> orders) {
         return orders.stream()
-                .map(order -> StockWithPaymentAdapterDto.of(order.productId(), order.quantity()))
+                .map(order -> StockFeignResponse.of(order.productId(), order.quantity()))
                 .toList();
     }
 

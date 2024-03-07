@@ -1,10 +1,9 @@
 package hanghae.stockservice.external.controller;
 
-import hanghae.stockservice.domain.entity.RedisStock;
-import hanghae.stockservice.external.controller.dto.StockAdapterDto;
 import hanghae.stockservice.external.controller.dto.response.Response;
 import hanghae.stockservice.external.service.RedisStockService;
 import lombok.RequiredArgsConstructor;
+import org.common.dto.StockFeignResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -23,19 +22,19 @@ public class RedisStockController {
 //    }
 
     @PostMapping("/redis-stock/enroll-stock")
-    public Response<Void> enrollStock(@RequestBody StockAdapterDto request) {
+    public Response<Void> enrollStock(@RequestBody StockFeignResponse request) {
         redisStockService.enrollStock(request);
         return Response.success();
     }
 
     @PostMapping("/redis-stock/purchase")
-    public Response<Void> purchase(@RequestBody StockAdapterDto request) {
+    public Response<Void> purchase(@RequestBody StockFeignResponse request) {
         redisStockService.purchase(request);
         return Response.success();
     }
 
     @PostMapping("/redis-stock/cancel")
-    public Response<Void> cancel(@RequestBody StockAdapterDto request) {
+    public Response<Void> cancel(@RequestBody StockFeignResponse request) {
         redisStockService.cancel(request);
         return Response.success();
     }

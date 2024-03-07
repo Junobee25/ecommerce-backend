@@ -2,7 +2,6 @@ package com.hanghae.productservice.service;
 
 import com.hanghae.productservice.controller.dto.ProductDetailDto;
 import com.hanghae.productservice.controller.dto.ProductDto;
-import com.hanghae.productservice.external.client.dto.StockWithProductAdapterDto;
 import com.hanghae.productservice.domain.constant.ErrorCode;
 import com.hanghae.productservice.domain.constant.ProductType;
 import com.hanghae.productservice.domain.entity.Product;
@@ -10,6 +9,7 @@ import com.hanghae.productservice.domain.repository.ProductRepository;
 import com.hanghae.productservice.exception.ProductServiceApplicationException;
 import com.hanghae.productservice.external.client.StockServiceClient;
 import lombok.RequiredArgsConstructor;
+import org.common.dto.StockFeignResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,8 +46,8 @@ public class ProductService {
         return ProductDetailDto.from(product);
     }
 
-    public void enrollProduct(String name, Integer price, String description, ProductType productType, Long quantity) {
+    public void enrollProduct(String name, Integer price, String description, ProductType productType, Integer quantity) {
         Product product = productRepository.save(Product.of(name, price, description, productType));
-        stockServiceClient.enrollStock(StockWithProductAdapterDto.of(product.getId(), quantity));
+        stockServiceClient.enrollStock(StockFeignResponse.of(product.getId(), quantity));
     }
 }

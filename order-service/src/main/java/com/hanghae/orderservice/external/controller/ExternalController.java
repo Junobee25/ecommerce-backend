@@ -1,9 +1,9 @@
 package com.hanghae.orderservice.external.controller;
 
 import com.hanghae.orderservice.controller.dto.response.Response;
-import com.hanghae.orderservice.external.controller.dto.OrdersWithPaymentAdapterDto;
 import com.hanghae.orderservice.external.service.ExternalService;
 import lombok.RequiredArgsConstructor;
+import org.common.dto.OrdersFeignResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class ExternalController {
     private final ExternalService externalService;
 
     @GetMapping("/orders")
-    public List<OrdersWithPaymentAdapterDto> getPaymentInfos(@RequestParam(value="userId") Long userId) {
+    public List<OrdersFeignResponse> getPaymentInfos(@RequestParam(value="userId") Long userId) {
         return externalService.getPaymentInfos(userId);
     }
 
