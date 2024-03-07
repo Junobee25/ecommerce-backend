@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +23,12 @@ public class PaymentService {
 
     @Transactional
     public void entryPayment(HttpHeaders headers) {
-        entryProcessPayment(headers);
+        entryPaymentProcess(headers);
     }
 
     @Transactional
     public void payment(HttpHeaders headers) {
-        completeProcessPayment(headers);
+        completePaymentProcess(headers);
     }
 
     @Transactional
@@ -38,16 +36,17 @@ public class PaymentService {
         cancelProcessPayment(headers);
     }
 
-    private void entryProcessPayment(HttpHeaders headers) {
+    private void entryPaymentProcess(HttpHeaders headers) {
         List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
         List<StockWithPaymentAdapterDto> stockHistory = getStockHistory(orders);
 
         stockHistory.forEach(stockServiceClient::decreaseStock);
     }
 
-    private void completeProcessPayment(HttpHeaders headers) {
+    private void completePaymentProcess(HttpHeaders headers) {
         List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
         List<StockWithPaymentAdapterDto> stockHistory = getStockHistory(orders);
+
         if (calculateFailure()) {
             cancelOrders(orders);
             stockHistory.forEach(stockServiceClient::increaseStock);
@@ -60,6 +59,7 @@ public class PaymentService {
     private void cancelProcessPayment(HttpHeaders headers) {
         List<OrdersWithPaymentAdapterDto> orders = ordersServiceClient.getOrdersInfo(getUserInfo(headers));
         List<StockWithPaymentAdapterDto> stockHistory = getStockHistory(orders);
+
         if (calculateFailure()) {
             cancelOrders(orders);
             stockHistory.forEach(stockServiceClient::increaseStock);
@@ -80,7 +80,6 @@ public class PaymentService {
                 .forEach(ordersServiceClient::completeOrders);
     }
 
-    // private -> public
     private Long getUserInfo(HttpHeaders headers) {
         return userServiceClient.getUserInfo(headers);
     }
@@ -95,5 +94,4 @@ public class PaymentService {
         int randomValue = new Random().nextInt(100);
         return randomValue < 20;
     }
-
 }
