@@ -1,7 +1,6 @@
-package com.hanghae.paymentservice.client.dto;
+package org.common.dto;
 
-public record OrdersWithPaymentAdapterDto(
-
+public record OrdersFeignResponse(
         Long productId,
 
         Long userId,

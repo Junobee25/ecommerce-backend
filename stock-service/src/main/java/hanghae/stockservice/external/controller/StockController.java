@@ -1,10 +1,10 @@
 package hanghae.stockservice.external.controller;
 
-import hanghae.stockservice.external.controller.dto.StockAdapterDto;
 import hanghae.stockservice.external.controller.dto.response.Response;
 import hanghae.stockservice.external.service.StockLockFacade;
 import hanghae.stockservice.external.service.StockService;
 import lombok.RequiredArgsConstructor;
+import org.common.dto.StockFeignResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,19 +21,19 @@ public class StockController {
         return Response.success();
     }
     @PostMapping("/stock/enroll-stock")
-    public Response<Void> enrollStock(@RequestBody StockAdapterDto request) {
+    public Response<Void> enrollStock(@RequestBody StockFeignResponse request) {
         stockService.enrollStock(request);
         return Response.success();
     }
 
     @PostMapping("/stock/purchase")
-    public Response<Void> purchase(@RequestBody StockAdapterDto request) {
+    public Response<Void> purchase(@RequestBody StockFeignResponse request) {
         stockLockFacade.purchase(request.productId(), request.quantity());
         return Response.success();
     }
 
     @PostMapping("/stock/cancel")
-    public Response<Void> cancel(@RequestBody StockAdapterDto request) {
+    public Response<Void> cancel(@RequestBody StockFeignResponse request) {
         stockService.cancel(request.productId(), request.quantity());
         return Response.success();
     }

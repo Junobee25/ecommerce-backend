@@ -2,8 +2,8 @@ package hanghae.stockservice.external.service;
 
 import hanghae.stockservice.domain.entity.Stock;
 import hanghae.stockservice.domain.repository.StockRepository;
-import hanghae.stockservice.external.controller.dto.StockAdapterDto;
 import lombok.RequiredArgsConstructor;
+import org.common.dto.StockFeignResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,7 @@ public class StockService {
     }
 
     @Transactional
-    public void enrollStock(StockAdapterDto stockAdapterDto) {
+    public void enrollStock(StockFeignResponse stockAdapterDto) {
         stockRepository.save(Stock.of(stockAdapterDto.productId(), stockAdapterDto.quantity()));
     }
 
